@@ -1,6 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
+import { BrowserRouter,
+   Routes,
+   Route,
+   Link,
+  createBrowserRouter,
+  RouterProvider,
+  createRoutesFromElements } from "react-router-dom"
 import Home from "./pages/Home"
 import About from "./pages/About"
 import Vans from "./pages/Vans/Vans"
@@ -15,18 +21,19 @@ import HostVanPricing from "./pages/Host/HostVanPricing"
 import HostVanPhotos from "./pages/Host/HostVanPhotos"
 import Layout from "./components/Layout"
 import HostLayout from "./components/HostLayout"
+import NotFound from './pages/NotFound';
 
 import "./server"
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
+
+  const router=createBrowserRouter(createRoutesFromElements(
+    <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="vans" element={<Vans />} />
           <Route path="vans/:id" element={<VanDetail />} />
+          <Route path="*" element={<NotFound />} />
           
           <Route path="host" element={<HostLayout />}>
             <Route index element={<Dashboard />} />
@@ -40,8 +47,9 @@ function App() {
             </Route>
           </Route>
         </Route>
-      </Routes>
-    </BrowserRouter>
+  ))
+  return (
+    <RouterProvider router={router}/>
   )
 }
 
